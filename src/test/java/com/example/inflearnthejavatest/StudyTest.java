@@ -18,7 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS) // 클래스마다 인스턴스를 생성 (이 클래스의 모든 테스트메서드가 하나의 인스턴스를 공유하게 됨)
 class StudyTest {
+
+    int value = 1;
 
     @FastTest
     @DisplayName("스터디 만들기")
@@ -43,16 +46,17 @@ class StudyTest {
 //        assumeTrue("LOCAL".equalsIgnoreCase(test_env));
 
         /* */
-
+        System.out.println(this);   // 아래 this 해시값과 다름 (즉, 다른 객체)
+        System.out.println(value++);
         Study study = new Study(1);
-
 
     }
 
     @SlowTest
     @DisplayName("스터디 만들기2")
     void create_new_study_again() {
-        System.out.println("create1");
+        System.out.println(this);   // 위 this 해시값과 다름 (즉, 다른 객체)
+        System.out.println("create1 " + value++);
     }
 
     @DisplayName("스터디 만들기3")
@@ -121,6 +125,10 @@ class StudyTest {
         }
     }
 
+
+    // @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    // 클래스에 해당 어노테이션이 붙어있으면
+    // BeforeAll, AfterAll이 꼭 static이어야 할 필요는 없음
 
     @BeforeAll
     static void beforeAll() {
