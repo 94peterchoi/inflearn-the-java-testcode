@@ -19,10 +19,12 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // 클래스마다 인스턴스를 생성 (이 클래스의 모든 테스트메서드가 하나의 인스턴스를 공유하게 됨)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class StudyTest {
 
     int value = 1;
 
+    @Order(2)
     @FastTest
     @DisplayName("스터디 만들기")
     void create_new_study() {
@@ -51,7 +53,7 @@ class StudyTest {
         Study study = new Study(1);
 
     }
-
+    @Order(1)
     @SlowTest
     @DisplayName("스터디 만들기2")
     void create_new_study_again() {
