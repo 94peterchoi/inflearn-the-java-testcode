@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS) // 클래스마다 인스턴스를 생성 (이 클래스의 모든 테스트메서드가 하나의 인스턴스를 공유하게 됨)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class StudyTest {
 
