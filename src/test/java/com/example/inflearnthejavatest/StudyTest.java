@@ -1,7 +1,9 @@
 package com.example.inflearnthejavatest;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
@@ -12,16 +14,19 @@ import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.converter.SimpleArgumentConverter;
 import org.junit.jupiter.params.provider.*;
 
-import javax.crypto.spec.PSource;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+//@ExtendWith(FindSlowTestExtension.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class StudyTest {
 
     int value = 1;
+
+    @RegisterExtension
+    static FindSlowTestExtension findSlowTestExtension =
+            new FindSlowTestExtension(1000L);
 
     @Order(2)
     @FastTest
@@ -52,10 +57,13 @@ class StudyTest {
         Study study = new Study(1);
 
     }
+
+    @Test
     @Order(1)
-    @SlowTest
+//    @SlowTest
     @DisplayName("스터디 만들기2")
-    void create_new_study_again() {
+    void create_new_study_again() throws InterruptedException {
+        Thread.sleep(1005L);
         System.out.println(this);   // 위 this 해시값과 다름 (즉, 다른 객체)
         System.out.println("create1 " + value++);
     }
@@ -72,7 +80,7 @@ class StudyTest {
     @ValueSource(ints = {10, 20, 40})
 //    @EmptySource
 //    @NullSource
-    @NullAndEmptySource
+//    @NullAndEmptySource
     void parameterizedTest(Integer limi) {
         System.out.println(limi);
     }
